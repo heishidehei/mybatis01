@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.wanho.mapper.UserMapper">
+    <resultMap id="userMapper" type="User">
+        <id column="id" property="id"/>
+        <result column="username" property="name"/>
+        <result column="password" property="password"/>
+    </resultMap>
+    <insert id="addUser" parameterType="User">
+        INSERT INTO user1 VALUES (null,#{username},#{password})
+    </insert>
+    <insert id="addUserReturnKey" useGeneratedKeys="true" keyProperty="id">
+         INSERT INTO user1 VALUES (#{username},#{password},null)
+    </insert>
+    <update id="update">
+        UPDATE user1 SET username=#{u.name}, password=#{u.password} WHERE id=#{id}
+    </update>
+    <update id="update2">
+        UPDATE user1 SET username=#{name}, password=#{pwd} WHERE id=#{id}
+    </update>
+    <select id="getAllUser" resultMap="userMapper">
+        select * from user1
+    </select>
+    <select id="getUserByid" resultType="net.wanho.pojo.User">
+        select * from user1 where username=(#{username})
+    </select>
+    <select id="getUserByname" resultType="net.wanho.pojo.User">
+        select * from user1 where username like concat("%",#{username},"%")
+    </select>
+    <select id="getUserBypwd" resultType="net.wanho.pojo.User">
+        select * from user1 where password like "%${value}%"
+    </select>
+</mapper>
